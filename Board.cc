@@ -6,7 +6,7 @@
 #include <stack>
 using namespace std;
 
-
+int Board::board_bound_size = 29;
 Board::Board() {
 	size = 0;
 }
@@ -82,26 +82,26 @@ void Board::printBoard() {
 	// Your code goes here
 	// 從上往下一列一列?
 	for (int i = 0; i < size; i++) { // row
-		printBound(29); // 上?界
-		printInside(29); // 從這開始描繪棋格
+		printBound(); // 上?界
+		printInside(); // 從這開始描繪棋格
 		for (int j = 0; j < size; j++) { // column
-			printNumber(elements[i][j], 29);
+			printNumber(elements[i][j]);
 		}
 		printf("*\n");
-		printInside(29);// 棋格描繪完?
+		printInside();// 棋格描繪完?
 	}
-	printBound(29); // 下?界
+	printBound(); // 下?界
 }
 
-void Board::printBound(int n) {
-	for (int i = 1; i <= n; i++)
+void Board::printBound() {
+	for (int i = 0; i < board_bound_size; i++)
 		printf("*");
 	printf("\n");
 }
 
-void Board::printInside(int n) {
+void Board::printInside() {
 	// ?出棋盤內部結?
-	int n_space = (n - size + 1) / size; // 棋盤每格裡面的空白數量
+	int n_space = (board_bound_size - size + 1) / size; // 棋盤每格裡面的空白數量
 	for (int i = 0; i < size; i++) { // column
 		printf("*");
 		for (int j = 0; j < n_space; j++)
@@ -110,23 +110,24 @@ void Board::printInside(int n) {
 	printf("*\n");
 }
 
-void Board::printNumber(int number, int n) {
-	int n_space = (n - size + 1) / size;
+void Board::printNumber(int number) {
+	int n_space = (board_bound_size - size + 1) / size;
 	int n_len; int inside_spa;
+	int j;
 	if (number) {
 		n_len = nDigits(number);
 		if (n_len >= 4) inside_spa = 1;
 		else inside_spa = n_space / 2 - n_len + 1;
 		printf("*");
-		for (int j = 1; j <= inside_spa; j++)
+		for (j = 0; j < inside_spa; j++)
 			printf(" ");
 		printf("%d", number);
-		for (int j = 1; j <= n_space - (n_len + inside_spa); j++)
+		for (j = 0; j < n_space - (n_len + inside_spa); j++)
 			printf(" ");
 	}
 	else {
 		printf("*");
-		for (int j = 1; j <= n_space; j++)
+		for (j = 0; j < n_space; j++)
 			printf(" ");
 	}
 }

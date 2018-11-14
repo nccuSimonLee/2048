@@ -20,13 +20,15 @@ class Board {
 	private:
 		int size;
 		int **elements;
+		static int board_bound_size;
 		void setBoard();
 		int *getRand(int num) const;
-		void printBound(int n);
-		void printInside(int n);
-		void printNumber(int number, int n);
+		void printBound();
+		void printInside();
+		void printNumber(int number);
 		
 
 };
+
 
 #endif
