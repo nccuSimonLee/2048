@@ -11,5 +11,6 @@ const char * const menu_items[]={"I = UP",
 int main() {
 	Board board(4);
 	board.initBoard();
+	board.printBoard();
 	return 0;
 }
