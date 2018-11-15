@@ -15,17 +15,22 @@ class Board {
 		~Board();
 		void printBoard();
 		void initBoard();
-		void updateBoard(char move);
+		void updateBoard(int move);
 		
 	private:
 		int size;
 		int **elements;
 		static int board_bound_size;
+		int *element_copy; // to retain the copy of a row of a column to update
 		void setBoard();
 		int *getRand(int num) const;
 		void printBound();
 		void printInside();
 		void printNumber(int number);
+		void updateRow(int index);
+		void updateCol(int index);
+		void reverse(int index, int row_or_col);
+		void update();
 		
 
 };

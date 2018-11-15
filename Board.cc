@@ -3,7 +3,6 @@
 #include <cstdio> 
 #include <ctime>
 #include <iostream>
-#include <stack>
 using namespace std;
 
 int Board::board_bound_size = 29;
@@ -29,6 +28,7 @@ Board::~Board() {
 	for(int i = 0; i < size; i++)
 		delete [] elements[i];
 	delete [] elements;
+	delete [] element_copy;
 }
 
 // allocate the board's memory
@@ -36,6 +36,7 @@ void Board::setBoard() {
 	elements = new int*[size]; // board_size row
 	for(int i = 0; i < size; i++)
 		elements[i] = new int[size]; // board_size column
+	element_copy = new int[size];
 }
 
 // initialize a board, make it be filled with 0 and 2
@@ -55,6 +56,87 @@ void Board::initBoard() {
 	return;
 }
 
+void Board::updateBoard(int move) { // 1:left, 2:up, 3:right, 4:down
+	int i;
+	switch(move) {
+		case 1: {
+			for(i = 0; i < size; i++)
+				updateRow(i);
+			break;
+		}
+		case 2: {
+			for(i = 0; i < size; i++)
+				updateCol(i);
+			break;
+		}
+		case 3: {
+			for(i = 0; i < size; i++) {
+				reverse(i, 0); // 0 = row, 1 = col
+				updateRow(i);
+				reverse(i, 0);
+			}
+			break;
+		}
+		case 4: {
+			for(i = 0; i < size; i++) {
+				reverse(i, 1);
+				updateCol(i);
+				reverse(i, 1);
+			}
+			break;
+		}
+	}
+}
+
+void Board::updateRow(int index) {
+	int i;
+	for(i = 0; i < size; i++)
+		element_copy[i] = elements[index][i];
+	update();
+	for(i = 0; i < size; i++)
+		elements[index][i] = element_copy[i];
+}
+
+void Board::updateCol(int index) {
+	int i;
+	for(i = 0; i < size; i++)
+		element_copy[i] = elements[i][index];
+	update();
+	for(i = 0; i < size; i++)
+		elements[i][index] = element_copy[i];
+}
+
+void Board::update() {
+	int i, j;
+	for(i = 0; i < size - 1; i++) {
+		j = i + 1;
+		if(element_copy[j] == element_copy[i] || element_copy[i] == 0 || element_copy[j] == 0) {
+			element_copy[i] += element_copy[j];
+			for(; j < size - 1; j++)
+				element_copy[j] = element_copy[j+1];
+			element_copy[j] = 0;
+			i--;
+		}
+	}
+}
+
+void Board::reverse(int index, int row_or_col) {
+	int i, tmp;
+	if(row_or_col == 0) { // row
+		for(i = 0; i < size / 2; i++) {
+			tmp = elements[index][i];
+			elements[index][i] = elements[index][size-i];
+			elements[index][size-i] = tmp;
+		}
+	}
+	else {
+		for(i = 0; i < size / 2; i++) {
+			tmp = elements[i][index];
+			elements[i][index] = elements[size-i][index];
+			elements[size-i][index] = tmp;
+		}
+	}
+}
 
 
 int* Board::getRand(int num) const {
