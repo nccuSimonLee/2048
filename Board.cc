@@ -141,15 +141,15 @@ void Board::reverse(int index, int row_or_col) {
 	if(row_or_col == 0) { // row
 		for(i = 0; i < size / 2; i++) {
 			tmp = elements[index][i];
-			elements[index][i] = elements[index][size-i];
-			elements[index][size-i] = tmp;
+			elements[index][i] = elements[index][size-1-i];
+			elements[index][size-1-i] = tmp;
 		}
 	}
 	else {
 		for(i = 0; i < size / 2; i++) {
 			tmp = elements[i][index];
-			elements[i][index] = elements[size-i][index];
-			elements[size-i][index] = tmp;
+			elements[i][index] = elements[size-1-i][index];
+			elements[size-1-i][index] = tmp;
 		}
 	}
 }
