@@ -13,9 +13,12 @@ int main() {
 	board.initBoard();
 	board.printBoard();
 	ConsoleMenu menu(4, menu_items);
-	menu.print();
-	int move = menu.getMove();
-	board.updateBoard(move);
-	board.printBoard();
+	int move;
+	while(board.getZeroPos() != -1) {
+		menu.print();
+		move = menu.getMove();
+		board.updateBoard(move);
+		board.printBoard();
+	}
 	return 0;
 }
