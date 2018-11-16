@@ -5,11 +5,12 @@
 class ConsoleMenu {
 	public:
 		ConsoleMenu(int item_num,  const char * const * menuItems);
-		char getMove();
+		int getMove();
 		void print() const;
 		
 	private:
 		int nitems;
+		int inputTransform(char move);
 		char **items;
 }; 
 
