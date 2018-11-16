@@ -107,17 +107,33 @@ void Board::updateCol(int index) {
 }
 
 void Board::update() {
-	int i, j;
-	for(i = 0; i < size - 1; i++) {
-		j = i + 1;
-		if(element_copy[j] == element_copy[i] || element_copy[i] == 0 || element_copy[j] == 0) {
-			element_copy[i] += element_copy[j];
-			for(; j < size - 1; j++)
-				element_copy[j] = element_copy[j+1];
-			element_copy[j] = 0;
-			i--;
+	/* the elements in a row or a column need to search the next non-zero element
+	if the elements on the right of element[i] are all zero, then end the update procedure,
+	otherwise, if the next element--element[j] is equal to element[i], add it to element[i] and set element[j] to zero.
+	specially, if element[i] is zero, it need to i--, that means only move and no addition, so the next element equal to it can be added to it.
+	finally, if the element[j] is not equal to element[i], then move it to element[i+1] and set element[j] to zero.*/
+	int i, j, tmp_next;
+	bool all_zero = false;
+	for(i = 0; i < size - 1 && !all_zero; i++) {
+		tmp_next = 0;
+		for(j = i + 1; j < size; j++) {
+			if(element_copy[j] != 0) {
+				tmp_next = element_copy[j];
+				element_copy[j] = 0;
+				break;
+			}
 		}
-	}
+		if(tmp_next == 0)
+			all_zero = true;
+		else {
+			if(element_copy[i] == 0)
+				element_copy[i--] += tmp_next;
+			else if(element_copy[i] == tmp_next)
+				element_copy[i] += tmp_next;
+			else
+				element_copy[i+1] = tmp_next;
+		}
+	} 
 }
 
 void Board::reverse(int index, int row_or_col) {
