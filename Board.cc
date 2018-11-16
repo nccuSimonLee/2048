@@ -42,7 +42,7 @@ void Board::setBoard() {
 // initialize a board, make it be filled with 0 and 2
 void Board::initBoard() {
 	int a, b; // the position in which need to put 2
-	int *randnum = getRand(2);
+	int *randnum = getRand(0, size*size-1, 2);
 	a = randnum[0];
 	b = randnum[1];
 	int count = 0;
@@ -57,7 +57,7 @@ void Board::initBoard() {
 }
 
 void Board::updateBoard(int move) { // 1:left, 2:up, 3:right, 4:down
-	int i;
+	int i, j;
 	switch(move) {
 		case 1: {
 			for(i = 0; i < size; i++)
@@ -84,6 +84,20 @@ void Board::updateBoard(int move) { // 1:left, 2:up, 3:right, 4:down
 				reverse(i, 1);
 			}
 			break;
+		}
+	}
+	int zero_pos = getZeroPos();
+	if(zero_pos < 0)
+		return;
+	int *p;
+	for(i = 0; i < size; i++) {
+		for(j = 0; j < size; j++) {
+			if(i*size + j != zero_pos)
+				continue;
+			p = getRand(1, 10, 1);
+			if (p[0] > 1) elements[i][j] = 2;
+			else elements[i][j] = 4;
+			return;
 		}
 	}
 }
@@ -155,8 +169,7 @@ void Board::reverse(int index, int row_or_col) {
 }
 
 
-int* Board::getRand(int num) const {
-	int max = size * size - 1, min = 0;
+int* Board::getRand(int min, int max, int num) const {
 	int tol = max - min + 1;  //算出總數
 	int a[30000];  //放min~max的所有數字 
 	static int b[30000];  //放取出的亂數 
@@ -228,4 +241,27 @@ void Board::printNumber(int number) {
 		for (j = 0; j < n_space; j++)
 			printf(" ");
 	}
+}
+
+
+int Board::getZeroPos() const{
+	int pos[size*size], i, j;
+	int k = 0, count = 0, n = 0;
+	for (i = 0; i < 4; i++) {
+		for (j = 0; j < 4; j++) {
+			if (elements[i][j] == 0) {
+				pos[k] = count;
+				k++;
+			}
+			count++;
+		}
+	}
+	for (i = 0; i < 15; i++) {
+		if (pos[i] >= 0) n++;
+	}
+	if (n > 0) {
+		int *randpos = getRand(0, n, 1);
+		return pos[randpos[0]];
+	}
+	else return -1;
 }

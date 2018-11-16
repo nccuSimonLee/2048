@@ -16,14 +16,15 @@ class Board {
 		void printBoard();
 		void initBoard();
 		void updateBoard(int move);
+		int getZeroPos() const; // get a random index of 0 in the board
 		
 	private:
 		int size;
 		int **elements;
 		static int board_bound_size;
 		int *element_copy; // to retain the copy of a row of a column to update
-		void setBoard();
-		int *getRand(int num) const;
+		void setBoard(); // allocate memory for board
+		int *getRand(int min, int max, int num) const;
 		void printBound();
 		void printInside();
 		void printNumber(int number);
@@ -31,7 +32,6 @@ class Board {
 		void updateCol(int index);
 		void reverse(int index, int row_or_col);
 		void update();
-		
 
 };
 
