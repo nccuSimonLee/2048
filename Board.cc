@@ -5,17 +5,17 @@
 #include <iostream>
 using namespace std;
 
-int Board::board_bound_size = 29;
-Board::Board() {
+//int Board::board_bound_size = 29;
+Board::Board(): presenter() {
 	size = 0;
 }
 
-Board::Board(int board_size) {
+Board::Board(int board_size){
 	size = board_size;
 	setBoard();
 }
 
-Board::Board(const Board &originObject) {
+Board::Board(const Board &originObject){
 	size = originObject.size;
 	setBoard();
 	for(int i = 0; i < size; i++) {
@@ -189,7 +189,10 @@ int* Board::getRand(int min, int max, int num) const {
 	return b;
 }
 
-void Board::printBoard() {
+
+
+
+/*void Board::printBoard() {
 	// Your code goes here
 	// 從上往下一列一列?
 	for (int i = 0; i < size; i++) { // row
@@ -241,7 +244,7 @@ void Board::printNumber(int number) {
 		for (j = 0; j < n_space; j++)
 			printf(" ");
 	}
-}
+}*/
 
 
 int Board::getZeroPos() const{
