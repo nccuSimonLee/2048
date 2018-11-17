@@ -14,15 +14,14 @@ int main() {
 	BoardPresent presenter;
 	board.initBoard();
 	//board.printBoard();
-	presenter.print(board);
+	presenter.printBoard(board);
 	ConsoleMenu menu(4, menu_items);
 	int move;
 	while(board.getZeroPos() != -1) {
 		menu.print();
 		move = menu.getMove();
 		board.updateBoard(move);
-		//board.printBoard();
-		presenter.print(board);
+		presenter.printBoard(board);
 	}
 	return 0;
 }
